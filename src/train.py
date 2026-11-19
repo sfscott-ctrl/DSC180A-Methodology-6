@@ -15,6 +15,7 @@ reason it fails is the headline result.
 
 Run: python -m src.train
 """
+import argparse
 import json
 
 import pandas as pd
@@ -62,9 +63,9 @@ def temporal_split(df: pd.DataFrame):
     return train, valid, test
 
 
-def fit_and_score() -> dict:
+def fit_and_score(*, validation_only=False, exclude=()) -> dict:
     df = pd.read_parquet(PROCESSED)
-    cols = feature_columns(df)
+    cols = [c for c in feature_columns(df) if c not in exclude]
     train, valid, test = temporal_split(df)
 
     results = {
@@ -74,6 +75,7 @@ def fit_and_score() -> dict:
         "n_valid": len(valid),
         "n_test": len(test),
     }
+    splits = [("valid", valid)] if validation_only else [("valid", valid), ("test", test)]
     for name, model in MODELS.items():
         model.fit(train[cols], train[TARGET])
         results[name] = {
@@ -81,13 +83,22 @@ def fit_and_score() -> dict:
                 "r2": round(float(r2_score(part[TARGET], model.predict(part[cols]))), 4),
                 "mae": round(float(mean_absolute_error(part[TARGET], model.predict(part[cols]))), 1),
             }
-            for split, part in [("valid", valid), ("test", test)]
+            for split, part in splits
         }
     return results
 
 
 if __name__ == "__main__":
-    res = fit_and_score()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--validation-only", action="store_true")
+    args = parser.parse_args()
+    res = fit_and_score(validation_only=args.validation_only)
     METRICS.parent.mkdir(parents=True, exist_ok=True)
-    METRICS.write_text(json.dumps(res, indent=2))
+    if args.validation_only:
+        output = METRICS.with_name("validation_after.json")
+    else:
+        output = METRICS
+        before = fit_and_score(exclude=("cnt_roll_3",))
+        METRICS.with_name("metrics_before.json").write_text(json.dumps(before, indent=2) + "\n")
+    output.write_text(json.dumps(res, indent=2) + "\n")
     print(json.dumps({k: v for k, v in res.items() if k != "features"}, indent=2))

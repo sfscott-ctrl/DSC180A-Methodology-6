@@ -1,0 +1,70 @@
+{
+  "rows": 728,
+  "start": "2011-01-03",
+  "end": "2012-12-31",
+  "weather_counts": {
+    "GOOD": 463,
+    "MISTY": 245,
+    "BAD": 20
+  },
+  "missing_dates": [
+    "2011-03-10"
+  ],
+  "sha256": "a6bed1577f6e4de56dcfae6d8315985073cc0ad3446c8c99ed60c86a0b5ad9dc",
+  "columns": {
+    "instant": {
+      "dtype": "int64"
+    },
+    "dteday": {
+      "dtype": "datetime64[us]"
+    },
+    "season": {
+      "dtype": "str"
+    },
+    "yr": {
+      "dtype": "int64"
+    },
+    "mnth": {
+      "dtype": "str"
+    },
+    "holiday": {
+      "dtype": "str"
+    },
+    "weekday": {
+      "dtype": "str"
+    },
+    "temp": {
+      "dtype": "float64"
+    },
+    "atemp": {
+      "dtype": "float64"
+    },
+    "hum": {
+      "dtype": "float64"
+    },
+    "windspeed": {
+      "dtype": "float64"
+    },
+    "casual": {
+      "dtype": "int64"
+    },
+    "registered": {
+      "dtype": "int64"
+    },
+    "cnt": {
+      "dtype": "int64"
+    },
+    "workday": {
+      "dtype": "str"
+    },
+    "weather": {
+      "dtype": "str"
+    },
+    "days_since_2011": {
+      "dtype": "int64"
+    },
+    "cnt_2d_bfr": {
+      "dtype": "int64"
+    }
+  }
+}

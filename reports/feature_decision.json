@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-18",
+  "feature": "cnt_roll_3",
+  "validation_r2_delta": {
+    "ridge": -0.0036,
+    "hgb": -0.0202
+  },
+  "selection_data": "2012-01-01 through 2012-06-30 only",
+  "decision": "Retain in submitted experimental pipeline to reproduce the negative result; recommend dropping it for deployment. No further feature candidates will be tried.",
+  "test_scores_reviewed_for_decision": false
+}

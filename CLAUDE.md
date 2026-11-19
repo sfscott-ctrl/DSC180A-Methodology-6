@@ -6,7 +6,9 @@ rides) from calendar, weather, and lagged-demand features.
 ## Commands
 - `make data` - download raw CSV and assert its shape
 - `make features` - build `data/processed/features.parquet`
-- `make train` - fit models, write `reports/metrics.json`
+- `make train` - final evaluation; writes after/before feature metrics
+- `python -m src.train --validation-only` - use this while selecting features
+- `/seed-fault <mutation>` - capture red tests and hook stderr, then repair
 - `make test` - pytest; run this before claiming anything works
 - `make all` - the three pipeline stages in order
 
@@ -35,7 +37,8 @@ rides) from calendar, weather, and lagged-demand features.
 - The mirror in `DATA_URL` is missing 2011-03-10. It is NOT the UCI file:
   728 rows from 2011-01-03, not 731 from 2011-01-01.
 - `weather` uses the labels `GOOD` / `MISTY` / `BAD`, not the UCI codes 1-4.
-- Ridership grew ~65% from 2011 to 2012, so tree models trained on 2011
-  cannot extrapolate to 2012. That is the headline result, not an error.
+- Daily observed weather is a retrospective proxy for a forecast; it is
+  not known before the day begins. State this limitation in every report.
+- `cnt_roll_3` uses completed days d-1 through d-3; never include day d.
 - 2012-10-29 (Hurricane Sandy, 22 rides) is in the test set. Expect it in
   any residual plot.

@@ -8,7 +8,7 @@ import pandas as pd
 import pytest
 
 from src.config import FORBIDDEN, TARGET
-from src.features import build_features, feature_columns
+from src.features import build_features, encode_weather, feature_columns
 from src.ingest import load_raw
 
 
@@ -85,3 +85,17 @@ def test_no_missing_values(feats):
 def test_dates_are_sorted_and_unique(feats):
     assert feats.dteday.is_monotonic_increasing
     assert feats.dteday.is_unique
+
+
+def test_weather_encoder_rejects_unknown_labels():
+    with pytest.raises(ValueError, match="unmapped weather labels.*UNKNOWN"):
+        encode_weather(pd.Series(["GOOD", "MISTY", "BAD", "UNKNOWN"]))
+
+
+def test_roll_3_ignores_current_and_future_counts():
+    raw = load_raw()
+    date = pd.Timestamp("2011-02-17")
+    original = build_features(raw).set_index("dteday").loc[date, "cnt_roll_3"]
+    raw.loc[raw.dteday >= date, TARGET] += 100000
+    changed = build_features(raw).set_index("dteday").loc[date, "cnt_roll_3"]
+    assert changed == original

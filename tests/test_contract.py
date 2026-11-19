@@ -3,7 +3,7 @@ import pandas as pd
 import pytest
 from sklearn.metrics import r2_score
 
-from src.config import LAG_WARMUP, TARGET
+from src.config import CLASSIFIED_RAW_COLS, LAG_WARMUP, TARGET
 from src.features import build_features, feature_columns, reindex_to_calendar
 from src.ingest import load_raw
 from src.train import MODELS, temporal_split
@@ -23,6 +23,11 @@ def test_calendar_is_complete_before_lagging(raw):
     """The reindexed frame must have no gaps, or the lags are wrong."""
     grid = reindex_to_calendar(raw)
     assert set(grid.dteday.diff().dropna().dt.days.unique()) == {1}
+
+
+def test_every_raw_column_is_classified(raw):
+    unknown = set(raw.columns) - CLASSIFIED_RAW_COLS
+    assert not unknown, f"unclassified raw columns: {sorted(unknown)}"
 
 
 def test_only_expected_rows_are_dropped(raw, feats):
@@ -46,10 +51,10 @@ def test_only_expected_rows_are_dropped(raw, feats):
 def test_beats_the_mean_baseline(feats):
     """A model that cannot beat predicting the training mean is not a result."""
     cols = feature_columns(feats)
-    train, _, test = temporal_split(feats)
+    train, valid, _ = temporal_split(feats)
     ridge = MODELS["ridge"]
     ridge.fit(train[cols], train[TARGET])
-    assert r2_score(test[TARGET], ridge.predict(test[cols])) > 0.4
+    assert r2_score(valid[TARGET], ridge.predict(valid[cols])) > 0.4
 
 
 def test_persistence_baseline_is_reported():
