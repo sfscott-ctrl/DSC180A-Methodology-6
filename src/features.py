@@ -2,8 +2,9 @@
 
 The contract this module guarantees, and that tests/ enforces:
   1. No column in FORBIDDEN (see src/config.py) reaches the model.
-  2. Every feature at time t is computable from information available at t.
-  3. The output is sorted by date, gap-free after dropna, and complete.
+  2. Target-derived features at time t use only completed earlier days.
+     Observed same-day weather is a retrospective forecast proxy.
+  3. The output is sorted, unique, and complete; dropped rows leave gaps.
 
 Run: python -m src.features
 """
@@ -65,7 +66,7 @@ def build_features(df: pd.DataFrame) -> pd.DataFrame:
     out["month_sin"] = np.sin(2 * np.pi * month / 12)
     out["month_cos"] = np.cos(2 * np.pi * month / 12)
 
-    # --- Weather: measured same-day, available to a forecaster ----------
+    # --- Weather: retrospective proxy; not known before the day starts --
     out["weather_severity"] = encode_weather(out.weather)
 
     # --- Lagged target: past values only. shift(1) is the whole ballgame;

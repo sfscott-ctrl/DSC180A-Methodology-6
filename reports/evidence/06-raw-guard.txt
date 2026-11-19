@@ -1,0 +1,45 @@
+Controlled copy with the new raw SHA256 guard.
+Command: cp corrupt.csv data/raw/bike_daily.csv
+
+$ make data
+python -m src.ingest
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/fault4-guarded/repo/src/ingest.py", line 43, in <module>
+    verify_raw_hash()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/fault4-guarded/repo/src/ingest.py", line 28, in verify_raw_hash
+    raise ValueError(f"raw data SHA256 mismatch: expected {RAW_SHA256}; got {actual}")
+ValueError: raw data SHA256 mismatch: expected a6bed1577f6e4de56dcfae6d8315985073cc0ad3446c8c99ed60c86a0b5ad9dc; got 53edf223d554e7edce46ac78b768ca600fb8cec0b5de9866d37e9d9ef4ab4236
+make: *** [data] Error 1
+
+exit_code=2
+
+$ make test
+python -m pytest tests/ -q
+..F.................                                                     [100%]
+=================================== FAILURES ===================================
+______________________ test_raw_file_matches_pinned_hash _______________________
+
+    def test_raw_file_matches_pinned_hash():
+>       verify_raw_hash()
+
+tests/test_contract.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = PosixPath('/Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/fault4-guarded/repo/data/raw/bike_daily.csv')
+
+    def verify_raw_hash(path: Path = RAW) -> None:
+        actual = hashlib.sha256(path.read_bytes()).hexdigest()
+        if actual != RAW_SHA256:
+>           raise ValueError(f"raw data SHA256 mismatch: expected {RAW_SHA256}; got {actual}")
+E           ValueError: raw data SHA256 mismatch: expected a6bed1577f6e4de56dcfae6d8315985073cc0ad3446c8c99ed60c86a0b5ad9dc; got 53edf223d554e7edce46ac78b768ca600fb8cec0b5de9866d37e9d9ef4ab4236
+
+src/ingest.py:28: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_contract.py::test_raw_file_matches_pinned_hash - ValueError...
+1 failed, 19 passed in 2.06s
+make: *** [test] Error 1
+
+exit_code=2

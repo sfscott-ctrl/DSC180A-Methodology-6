@@ -13,58 +13,122 @@
   "sha256": "a6bed1577f6e4de56dcfae6d8315985073cc0ad3446c8c99ed60c86a0b5ad9dc",
   "columns": {
     "instant": {
-      "dtype": "int64"
+      "dtype": "int64",
+      "missing_count": 0
     },
     "dteday": {
-      "dtype": "datetime64[us]"
+      "dtype": "datetime64[us]",
+      "missing_count": 0
     },
     "season": {
-      "dtype": "str"
+      "dtype": "str",
+      "missing_count": 0,
+      "values": [
+        "FALL",
+        "SPRING",
+        "SUMMER",
+        "WINTER"
+      ]
     },
     "yr": {
-      "dtype": "int64"
+      "dtype": "int64",
+      "missing_count": 0,
+      "values": [
+        2011,
+        2012
+      ]
     },
     "mnth": {
-      "dtype": "str"
+      "dtype": "str",
+      "missing_count": 0,
+      "values": [
+        "APR",
+        "AUG",
+        "DEC",
+        "FEB",
+        "JAN",
+        "JUL",
+        "JUN",
+        "MAR",
+        "MAY",
+        "NOV",
+        "OCT",
+        "SEP"
+      ]
     },
     "holiday": {
-      "dtype": "str"
+      "dtype": "str",
+      "missing_count": 0,
+      "values": [
+        "N",
+        "Y"
+      ]
     },
     "weekday": {
-      "dtype": "str"
+      "dtype": "str",
+      "missing_count": 0,
+      "values": [
+        "FRI",
+        "MON",
+        "SAT",
+        "SUN",
+        "THU",
+        "TUE",
+        "WED"
+      ]
     },
     "temp": {
-      "dtype": "float64"
+      "dtype": "float64",
+      "missing_count": 0
     },
     "atemp": {
-      "dtype": "float64"
+      "dtype": "float64",
+      "missing_count": 0
     },
     "hum": {
-      "dtype": "float64"
+      "dtype": "float64",
+      "missing_count": 0
     },
     "windspeed": {
-      "dtype": "float64"
+      "dtype": "float64",
+      "missing_count": 0
     },
     "casual": {
-      "dtype": "int64"
+      "dtype": "int64",
+      "missing_count": 0
     },
     "registered": {
-      "dtype": "int64"
+      "dtype": "int64",
+      "missing_count": 0
     },
     "cnt": {
-      "dtype": "int64"
+      "dtype": "int64",
+      "missing_count": 0
     },
     "workday": {
-      "dtype": "str"
+      "dtype": "str",
+      "missing_count": 0,
+      "values": [
+        "N",
+        "Y"
+      ]
     },
     "weather": {
-      "dtype": "str"
+      "dtype": "str",
+      "missing_count": 0,
+      "values": [
+        "BAD",
+        "GOOD",
+        "MISTY"
+      ]
     },
     "days_since_2011": {
-      "dtype": "int64"
+      "dtype": "int64",
+      "missing_count": 0
     },
     "cnt_2d_bfr": {
-      "dtype": "int64"
+      "dtype": "int64",
+      "missing_count": 0
     }
   }
 }

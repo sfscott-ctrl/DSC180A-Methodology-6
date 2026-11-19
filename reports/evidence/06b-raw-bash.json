@@ -1,0 +1,46 @@
+[
+  {
+    "request": [
+      "/Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/claude-runtime/node_modules/.bin/claude",
+      "-p",
+      "Run this authorized controlled assignment experiment exactly once using Bash: bash /Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/fault4/run.sh . It executes a cp into data/raw in a disposable repository, runs its tests and restores its original CSV automatically. Do not run any other commands. Return a concise observation of the output. The driver records whether any PostToolUse hook runs.",
+      "--model",
+      "qwen3",
+      "--effort",
+      "low",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--include-hook-events",
+      "--no-session-persistence",
+      "--setting-sources",
+      "project,local",
+      "--tools",
+      "Bash",
+      "--allowedTools",
+      "Bash"
+    ]
+  },
+  {
+    "tool": "Bash",
+    "id": "chatcmpl-tool-84f6dba5ca1e03b2",
+    "input": {
+      "command": "bash /Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/fault4/run.sh .",
+      "description": "Run the fault4 controlled experiment script once"
+    }
+  },
+  {
+    "tool_result_id": "chatcmpl-tool-84f6dba5ca1e03b2",
+    "content": "Original raw SHA256: a6bed1577f6e4de56dcfae6d8315985073cc0ad3446c8c99ed60c86a0b5ad9dc  data/raw/bike_daily.csv\nAfter Bash cp SHA256: 53edf223d554e7edce46ac78b768ca600fb8cec0b5de9866d37e9d9ef4ab4236  data/raw/bike_daily.csv\nTemperature after cp: 35.957499999999996\npython -m pytest tests/ -q\n..................                                                       [100%]\n18 passed in 2.11s\nRestored raw SHA256: a6bed1577f6e4de56dcfae6d8315985073cc0ad3446c8c99ed60c86a0b5ad9dc  data/raw/bike_daily.csv",
+    "is_error": false
+  },
+  {
+    "assistant": "\n\nRan the script once (that single command only). Output:\n\n- **Mutation landed:** `data/raw/bike_daily.csv` went from `a6bed157\u2026` to `53edf223\u2026` after the `cp`.\n- **Effect visible:** mean temperature on the mutated data computed as **35.957\u2026** \u2014 clearly not the real daily-average scale.\n- **Tests:** `python -m pytest tests/ -q` \u2192 **18 passed in 2.11s**. So the suite stayed green even with the raw CSV corrupted; nothing in `tests/` re-verifies the pinned raw hash or the data shape (per CLAUDE.md, that verification lives in the `make data` / ingest stage, not the test run).\n- **Restore clean:** final hash equals the original `a6bed1577f6e4de56dcfae6d8315985073cc0ad3446c8c99ed60c86a0b5ad9dc`, so the working copy is back where it started.\n\nNo hook output appeared in the transcript alongside this tool call \u2014 the driver's own record is the authority on whether a PostToolUse hook fired."
+  },
+  {
+    "result": "\n\nRan the script once (that single command only). Output:\n\n- **Mutation landed:** `data/raw/bike_daily.csv` went from `a6bed157\u2026` to `53edf223\u2026` after the `cp`.\n- **Effect visible:** mean temperature on the mutated data computed as **35.957\u2026** \u2014 clearly not the real daily-average scale.\n- **Tests:** `python -m pytest tests/ -q` \u2192 **18 passed in 2.11s**. So the suite stayed green even with the raw CSV corrupted; nothing in `tests/` re-verifies the pinned raw hash or the data shape (per CLAUDE.md, that verification lives in the `make data` / ingest stage, not the test run).\n- **Restore clean:** final hash equals the original `a6bed1577f6e4de56dcfae6d8315985073cc0ad3446c8c99ed60c86a0b5ad9dc`, so the working copy is back where it started.\n\nNo hook output appeared in the transcript alongside this tool call \u2014 the driver's own record is the authority on whether a PostToolUse hook fired.",
+    "num_turns": 2,
+    "is_error": false,
+    "duration_ms": 20129
+  }
+]

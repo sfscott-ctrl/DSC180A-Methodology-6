@@ -1,91 +1,76 @@
 # Bikeshare demand capstone
 
-Reference repository for the DSC 180A methodology lesson on agentic
-programming. Forecasts daily Capital Bikeshare ridership (`cnt`) for
-Washington, DC, 2011-2012, with a leakage trap in the data.
+Completed work through **Part 5, Exercise 2** of the
+[DSC methodology assignment](https://dsc-capstone.org/2026-27/assignments/methodology/07-open/).
+The first Git commit is the unmodified starter. The remaining history records
+the failing feature test, implementation, three source faults and repairs,
+the raw-data-copy experiment, self-audit, and report.
 
-The agent is Claude Code driving an **open-weight model running on your own
-machine** through Ollama. No Anthropic account, subscription, or API key is
-needed. Nothing leaves your laptop.
+Start with [REPORT.md](REPORT.md) and [the fault evidence](docs/SEEDED_FAULTS.md).
+Exercises 3–5 and course submission are outside this delivery's scope.
 
-## Setup
+## Reproduce the analysis
 
-    # 1. Ollama (the local model server)   https://ollama.com/download
-    ollama serve                           # leave running in its own terminal
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+make all
+make test
+```
 
-    # 2. Claude Code (the agent harness; free to install, no login needed here)
-    curl -fsSL https://claude.ai/install.sh | bash
+`make all` verifies the pinned raw CSV, builds features, and writes
+`reports/metrics.json` (with the added feature) and
+`reports/metrics_before.json` (without it). `make test` runs 20 tests.
+Use `python -m src.train --validation-only` during feature development.
+`python -m src.leakage_demo` reproduces the deliberately invalid perfect score.
 
-    # 3. This repo
-    python3 -m venv .venv && source .venv/bin/activate
-    pip install -r requirements.txt
-    make model          # pulls the base model, builds `bikeshare-coder` with a 64k context
-    make check-model    # confirms Claude Code can reach it and that tool calls work
-    make all            # data -> features -> train, writes reports/metrics.json
-    make test           # 14 tests
+## Claude Code through NRP
 
-    # 4. Start the agent, from the repo root
-    claude
+This run used NRP's hosted `qwen3` service through Claude Code. Prompts and
+relevant repository content were sent to the authorized NRP endpoint; the
+sklearn analysis ran locally. The repository contains no API key.
 
-`.claude/settings.json` points Claude Code at `http://localhost:11434` and
-names the model, so `claude` works with no environment variables. Run
-`/status` inside Claude Code to confirm it says `bikeshare-coder`.
+```bash
+bash scripts/claude-nrp.sh
+```
 
-### Which base model
+Enter your token at the hidden prompt. Full setup and SDK commands are in
+[docs/SETUP_NRP.md](docs/SETUP_NRP.md). The custom `/seed-fault` skill packages
+the workflow used for the three controlled source faults; the starter's
+`/new-feature` skill remains unchanged.
 
-`make model` builds from `qwen3.5:9b` by default. Pick by memory:
+## Optional original Ollama setup
 
-| Your machine | Base model | `make model` command |
-|---|---|---|
-| 16 GB RAM (any laptop) | `qwen3.5:9b` (~7 GB) | `make model` |
-| 32 GB RAM, or 24 GB+ Apple Silicon | `qwen3.5:27b` (~18 GB) | `make model BASE=qwen3.5:27b` |
-| 48 GB+ | `qwen3.5:35b` (~22 GB) | `make model BASE=qwen3.5:35b` |
-| Under 16 GB, or no patience | a hosted model, below | — |
+The original `model/` and Makefile targets remain available. Install Ollama
+and Claude Code, start `ollama serve`, then run `make model` and
+`make check-model`. To use this local server instead of NRP, put the following
+nonsecret override in git-ignored `.claude/settings.local.json`:
 
-The 64k context window adds several GB on top of the download size at run
-time. If the model runs but is painfully slow, drop a size, not the context.
-Any tool-capable model from the Ollama library works; the lesson does not
-depend on this one. Record which model you used in `REPORT.md`.
+```json
+{
+  "model": "bikeshare-coder",
+  "env": {
+    "ANTHROPIC_BASE_URL": "http://localhost:11434",
+    "ANTHROPIC_AUTH_TOKEN": "ollama",
+    "ANTHROPIC_API_KEY": ""
+  }
+}
+```
 
-### If your laptop cannot run a model
+Then launch `claude` directly; the NRP launcher is for the hosted setup.
+The default local model target is `qwen3.5:9b` with a 64k context, as in the
+starter. The local-model option was not used or validated in this run.
 
-Ollama can serve the same models from its cloud, and Claude Code can point at
-any endpoint that speaks the Anthropic Messages API. Override the repo
-settings in `.claude/settings.local.json` (git-ignored) rather than editing
-`settings.json`:
+## Data and safeguards
 
-    {
-      "model": "qwen3.5:27b-cloud",
-      "env": {
-        "ANTHROPIC_BASE_URL": "https://ollama.com",
-        "ANTHROPIC_AUTH_TOKEN": "<your Ollama API key>",
-        "ANTHROPIC_API_KEY": ""
-      }
-    }
+The checked-in CSV is Molnar's processed mirror of the UCI Bike Sharing
+Dataset (Fanaee-T and Gama), not the original UCI daily file. See
+`src/config.py` and `reports/data_profile.json` for the schema and differences.
+The pipeline runs offline. Its raw SHA256 is pinned and enforced by
+`make data` and a test. Edit/Write deny rules alone cannot stop a Bash copy;
+the fourth fault demonstrates this distinction in a disposable repository.
 
-Model names and free-tier limits for hosted models change; check
-`ollama.com/search?c=cloud` for what is current. A paid Anthropic plan also
-works, with `"env": {}` to clear the override, and is the only setup in
-which `model: opus` or `sonnet` names mean anything.
-
-## Data
-
-Daily aggregation of the UCI Bike Sharing Dataset (Fanaee-T and Gama, 2013),
-via the processed mirror used in Molnar's *Interpretable Machine Learning*:
-
-    https://raw.githubusercontent.com/christophM/interpretable-ml-book/master/data/bike.csv
-
-The mirror differs from the UCI file. See `src/config.py` for the list.
-`data/raw/bike_daily.csv` is a checked-in copy so the pipeline runs offline;
-it is immutable (writes are denied in `.claude/settings.json`).
-
-`python -m src.leakage_demo` reproduces the R^2 = 1.000 result from the lesson.
-
-## Layout
-
-See `CLAUDE.md` for the standing rules and `src/config.py` for every constant.
-`.claude/` holds the hook, permissions, reviewer subagent and `new-feature`
-skill the lesson builds in Steps 7-8. `model/` holds the Modelfile and the
-readiness check. `agent/audit.py` is the Agent SDK batch auditor from Part 4;
-it uses the same local endpoint (`AUDIT_MODEL` overrides the model). Record
-methodological decisions in `docs/DECISIONS.md`.
+Standing constraints are in `CLAUDE.md`; methodological choices and agent
+attribution are in `docs/DECISIONS.md` and `REPORT.md`. Observed daily weather
+limits the interpretation to a retrospective forecast-proxy evaluation.

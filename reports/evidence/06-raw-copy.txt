@@ -1,0 +1,7 @@
+Original raw SHA256: a6bed1577f6e4de56dcfae6d8315985073cc0ad3446c8c99ed60c86a0b5ad9dc  data/raw/bike_daily.csv
+After Bash cp SHA256: 53edf223d554e7edce46ac78b768ca600fb8cec0b5de9866d37e9d9ef4ab4236  data/raw/bike_daily.csv
+Temperature after cp: 35.957499999999996
+python -m pytest tests/ -q
+..................                                                       [100%]
+18 passed in 2.11s
+Restored raw SHA256: a6bed1577f6e4de56dcfae6d8315985073cc0ad3446c8c99ed60c86a0b5ad9dc  data/raw/bike_daily.csv

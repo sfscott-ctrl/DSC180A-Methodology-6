@@ -4,7 +4,7 @@ Daily Capital Bikeshare counts, 2011-2012. We forecast `cnt` (total daily
 rides) from calendar, weather, and lagged-demand features.
 
 ## Commands
-- `make data` - download raw CSV and assert its shape
+- `make data` - verify pinned raw CSV hash and shape
 - `make features` - build `data/processed/features.parquet`
 - `make train` - final evaluation; writes after/before feature metrics
 - `python -m src.train --validation-only` - use this while selecting features
