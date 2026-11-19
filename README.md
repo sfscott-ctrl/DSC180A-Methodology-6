@@ -2,14 +2,15 @@
 
 Repository: [DSC180A-Methodology-6](https://github.com/sfscott-ctrl/DSC180A-Methodology-6)
 
-Completed work through **Part 5, Exercise 2** of the
+Completed **required Exercises 1–5** of the
 [DSC methodology assignment](https://dsc-capstone.org/2026-27/assignments/methodology/07-open/).
 The first Git commit is the unmodified starter. The remaining history records
 the failing feature test, implementation, three source faults and repairs,
 the raw-data-copy experiment, self-audit, and report.
 
 Start with [REPORT.md](REPORT.md) and [the fault evidence](docs/SEEDED_FAULTS.md).
-Exercises 3–5 and course submission are outside this delivery's scope.
+The teammate audit is in [docs/AUDIT.md](docs/AUDIT.md). Optional Exercise 6
+was not attempted; nothing has been submitted to the course.
 
 ## Reproduce the analysis
 
@@ -23,7 +24,7 @@ make test
 
 `make all` verifies the pinned raw CSV, builds features, and writes
 `reports/metrics.json` (with the added feature) and
-`reports/metrics_before.json` (without it). `make test` runs 20 tests.
+`reports/metrics_before.json` (without it). `make test` runs 25 tests.
 Use `python -m src.train --validation-only` during feature development.
 `python -m src.leakage_demo` reproduces the deliberately invalid perfect score.
 
@@ -88,3 +89,21 @@ python -m scripts.reproduce_validation
 This regenerates both `reports/validation_before.json` (original flat schema)
 and `reports/validation_after.json`, scoring only H1 2012. It does not call
 the test-scoring path or overwrite the final metrics files.
+
+## Exercise 4: frozen target-transformation study
+
+```bash
+# Reproduce all three validation candidates; never scores test:
+python -m src.train --target-transform
+# Explicitly reproduce the selected model's held-out artifact:
+python -m src.train --target-transform --evaluate-test
+```
+
+The predeclared plan, validation results, and frozen selection are in
+`reports/target_transform_{plan,validation,selection}.json`. The selection
+file records the pre-test state. The completed selected-model result is
+`reports/target_transformation.json`. It uses exactly the same predictors and
+HGB settings as the untransformed comparison. `make all` leaves this separate
+study out of `reports/metrics.json`; that file also contains all eight
+before/after feature-comparison rows. Replaying a frozen experiment is a
+reproducibility check, not a new opportunity to select on test performance.

@@ -114,8 +114,13 @@ check_identity on those selected predictors. Inspect feature availability
 and split/preprocessing code independently of the identity result.
 Do not inspect git history or earlier fault transcripts, search for extra
 experiments, repeat model fits, or change source files. Those are outside
-these four checks. Record remaining uncertainty in the findings/confidence
-fields and return the schema once the four checks are complete.
+these four checks. If a target-transform experiment is present, inspect its reconstruction,
+validation selection, and tests; do not run its explicit held-out evaluation
+again. The ordinary make all is the canonical untransformed comparison.
+Report current numeric faults or invalid conclusions, not hypothetical
+future misuse or style. Reproduction runs alone do not establish tuning.
+Record remaining uncertainty in the findings/confidence fields and return
+the schema once the four checks are complete.
 
 Your final answer is a single JSON object matching the schema you were
 given. No prose around it.

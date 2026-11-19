@@ -38,3 +38,8 @@ using observed weather as a proxy. They do not establish the performance
 of a deployable day-ahead system using weather forecasts. Lagged demand is
 also updated from actual prior-day outcomes, so evaluation is sequential
 one-day-ahead, not a six-month forecast made at one origin.
+
+The follow-up completes Exercises 3–5: see docs/AUDIT.md for the teammate
+review and REPORT.md for the target-transformation and deployment arguments.
+The selected transformed model uses a historical seven-day demand scale;
+the canonical untransformed pipeline remains separate.
