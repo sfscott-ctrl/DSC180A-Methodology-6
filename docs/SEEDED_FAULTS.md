@@ -4,7 +4,7 @@
 
 Claude Code invoked `/new-feature cnt_roll_3` against NRP `qwen3`.
 The first turn stopped after adding the test and observing the missing-column failure.
-The next commit implements the feature. Exact `make test` output:
+The next commit implements the feature. Actual captured tail of `make ... test 2>&1 | tail -30` (the full tool invocation is in `reports/evidence/01-feature-test.json`):
 
 ```text
         --------
@@ -125,3 +125,93 @@ python -m pytest tests/ -q
 ```
 
 Machine-readable tool calls and hook events: `reports/evidence/03-fault-forbidden.json`.
+
+## Fault 2: rolling mean includes the current target
+
+Executed with Claude Code/NRP qwen3 via `/seed-fault` in one invocation
+(10 harness turns including setup). After the first failing
+automatic hook, repair took **2 assistant response(s)**, counting unique
+API message IDs through the restoring Edit. There was **one source repair
+attempt**, restoring the original expression; no tests were weakened.
+The count includes the requested red `make test` call, not just the repair.
+
+Exact injected diff (the repair reverses it):
+
+```diff
+--- src/features.py (healthy)
++++ src/features.py (seeded)
+@@ -1 +1 @@
+-    out["cnt_roll_7"] = out[TARGET].shift(1).rolling(LAG_WARMUP).mean()
++    out["cnt_roll_7"] = out[TARGET].rolling(LAG_WARMUP).mean()
+```
+
+Actual red `make test` output:
+
+```text
+python -m pytest tests/ -q
+...........F........                                                     [100%]
+=================================== FAILURES ===================================
+_______________________ test_rolling_mean_excludes_today _______________________
+
+feats =         dteday  instant  season  ...  cnt_lag_7   cnt_roll_7   cnt_roll_3
+0   2011-01-10     10.0  WINTER  ...     134....428571  2183.333333
+713 2012-12-31    731.0  WINTER  ...      920.0  1789.857143  2077.333333
+
+[714 rows x 29 columns]
+
+    def test_rolling_mean_excludes_today(feats):
+        """cnt_roll_7 must be the mean of the 7 calendar days *before* today."""
+        by_date = feats.set_index("dteday")[TARGET]
+        date = feats.dteday.iloc[200]
+        window = [date - pd.Timedelta(days=k) for k in range(1, 8)]
+        if all(d in by_date.index for d in window):
+            expected = sum(by_date[d] for d in window) / 7
+>           assert feats.set_index("dteday").cnt_roll_7[date] == pytest.approx(expected)
+E           assert np.float64(4389.0) == 4414.857142857143 ± 0.00441486
+E             
+E             comparison failed
+E             Obtained: 4389.0
+E             Expected: 4414.857142857143 ± 0.00441486
+
+tests/test_leakage.py:57: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_leakage.py::test_rolling_mean_excludes_today - assert np.fl...
+1 failed, 19 passed in 1.73s
+make: *** [test] Error 1
+```
+
+Automatic `PostToolUse:Edit` hook: exit **2**, stderr verbatim:
+
+```text
+Leakage tests failed after editing /Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/outputs/bikeshare-open/src/features.py:
+[714 rows x 29 columns]
+
+    def test_rolling_mean_excludes_today(feats):
+        """cnt_roll_7 must be the mean of the 7 calendar days *before* today."""
+        by_date = feats.set_index("dteday")[TARGET]
+        date = feats.dteday.iloc[200]
+        window = [date - pd.Timedelta(days=k) for k in range(1, 8)]
+        if all(d in by_date.index for d in window):
+            expected = sum(by_date[d] for d in window) / 7
+>           assert feats.set_index("dteday").cnt_roll_7[date] == pytest.approx(expected)
+E           assert np.float64(4389.0) == 4414.857142857143 ± 0.00441486
+E             
+E             comparison failed
+E             Obtained: 4389.0
+E             Expected: 4414.857142857143 ± 0.00441486
+
+tests/test_leakage.py:57: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_leakage.py::test_rolling_mean_excludes_today - assert np.fl...
+1 failed, 9 passed in 0.36s
+```
+
+Restoring Edit hook: exit **0**, stderr ``. Final test run:
+
+```text
+python -m pytest tests/ -q
+....................                                                     [100%]
+20 passed in 2.00s
+```
+
+Machine-readable tool calls and hook events: `reports/evidence/04-fault-rolling.json`.
