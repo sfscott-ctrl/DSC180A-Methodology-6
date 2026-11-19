@@ -1,0 +1,24 @@
+Validation-only reproduction from clean Git revision 5fed28c0c584024975ebd25d802c52edc306eccd
+$ make features
+python -m src.features
+OK features: 714 rows, 15 features -> features.parquet
+  temp, atemp, hum, windspeed, dayofweek, is_weekend, is_holiday, is_workday, month_sin, month_cos, weather_severity, cnt_lag_1, cnt_lag_7, cnt_roll_7, cnt_roll_3
+exit_code=0
+$ python -m scripts.reproduce_validation
+baseline_mean: validation R2 -0.9318 -> -0.9318; delta +0.0000
+baseline_persistence: validation R2 0.4507 -> 0.4507; delta +0.0000
+ridge: validation R2 0.6475 -> 0.6439; delta -0.0036
+hgb: validation R2 0.2185 -> 0.1983; delta -0.0202
+/Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/venv/lib/python3.13/site-packages/joblib/externals/loky/backend/context.py:134: UserWarning: Could not find the number of physical cores for the following reason:
+invalid literal for int() with base 10: ''
+Returning the number of logical cores instead. You can silence this warning by setting LOKY_MAX_CPU_COUNT to the number of cores you want to use.
+  warnings.warn(
+  File "/Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/venv/lib/python3.13/site-packages/joblib/externals/loky/backend/context.py", line 264, in _count_physical_cores
+    cpu_count_physical = _count_physical_cores_darwin()
+  File "/Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/venv/lib/python3.13/site-packages/joblib/externals/loky/backend/context.py", line 420, in _count_physical_cores_darwin
+    return int(cpu_info)
+exit_code=0
+validation_before.json: exact match
+validation_after.json: exact match
+metrics.json: exact match
+metrics_before.json: exact match

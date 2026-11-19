@@ -1,0 +1,18 @@
+{
+  "python": "3.13.1",
+  "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+  "packages": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.5",
+    "pyarrow": "26.0.1",
+    "scikit-learn": "1.9.1",
+    "pytest": "9.1.1",
+    "claude-agent-sdk": "0.2.172",
+    "scipy": "1.18.1",
+    "joblib": "1.6.0",
+    "threadpoolctl": "3.8.0"
+  },
+  "claude_code_feature_fault_harness": "2.1.328",
+  "hosted_model_alias": "qwen3",
+  "hosted_backend_response_id": "Qwen/Qwen3.8-Flash-Next-FP8"
+}
