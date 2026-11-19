@@ -9,6 +9,9 @@ rides) from calendar, weather, and lagged-demand features.
 - `make train` - final evaluation; writes after/before feature metrics
 - `python -m src.train --validation-only` - use this while selecting features
 - `/seed-fault <mutation>` - capture red tests and hook stderr, then repair
+- `python -m src.target_transform` - validation-only target experiment
+- Use its `--evaluate-test` only after a committed validation selection.
+- `reports/metrics.json` must remain the untransformed comparison.
 - `make test` - pytest; run this before claiming anything works
 - `make all` - the three pipeline stages in order
 

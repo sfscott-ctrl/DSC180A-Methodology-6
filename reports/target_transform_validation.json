@@ -1,0 +1,54 @@
+{
+  "n_train": 348,
+  "n_valid": 182,
+  "features": [
+    "temp",
+    "atemp",
+    "hum",
+    "windspeed",
+    "dayofweek",
+    "is_weekend",
+    "is_holiday",
+    "is_workday",
+    "month_sin",
+    "month_cos",
+    "weather_severity",
+    "cnt_lag_1",
+    "cnt_lag_7",
+    "cnt_roll_7",
+    "cnt_roll_3"
+  ],
+  "selection_metric": "validation r2; validation mae breaks ties",
+  "controls": {
+    "baseline_mean": {
+      "r2": -0.9318,
+      "mae": 2002.2
+    },
+    "baseline_persistence": {
+      "r2": 0.4507,
+      "mae": 900.6
+    },
+    "ridge": {
+      "r2": 0.6439,
+      "mae": 836.5
+    },
+    "hgb": {
+      "r2": 0.1983,
+      "mae": 1311.6
+    }
+  },
+  "candidates": {
+    "delta_lag1": {
+      "r2": 0.6251,
+      "mae": 805.4
+    },
+    "delta_roll7": {
+      "r2": 0.7209,
+      "mae": 722.4
+    },
+    "ratio_roll7": {
+      "r2": 0.7483,
+      "mae": 681.5
+    }
+  }
+}

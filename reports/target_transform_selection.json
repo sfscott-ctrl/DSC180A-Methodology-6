@@ -1,0 +1,12 @@
+{
+  "date": "2026-11-18",
+  "selected": "ratio_roll7",
+  "validation_sha256": "9cb1066fd03e020597654785aed14eab8ac873b03fb12d0bfc1ef8af7499a4d1",
+  "selection_rule": "highest validation R2, lower MAE breaks ties",
+  "valid": {
+    "r2": 0.7483,
+    "mae": 681.5
+  },
+  "test_evaluated": false,
+  "defensibility": "The scale cnt_roll_7 is the mean of seven completed prior calendar days. Scaling by known history permits predictions to track the current demand level without fitting a future trend or using the current target. It changes the loss weighting; performance is judged in original ride units."
+}
