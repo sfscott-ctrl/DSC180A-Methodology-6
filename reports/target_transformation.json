@@ -1,0 +1,57 @@
+{
+  "selected": "ratio_roll7",
+  "transformation": {
+    "kind": "ratio",
+    "historical_level": "cnt_roll_7"
+  },
+  "n_train": 348,
+  "n_test": 184,
+  "features": [
+    "temp",
+    "atemp",
+    "hum",
+    "windspeed",
+    "dayofweek",
+    "is_weekend",
+    "is_holiday",
+    "is_workday",
+    "month_sin",
+    "month_cos",
+    "weather_severity",
+    "cnt_lag_1",
+    "cnt_lag_7",
+    "cnt_roll_7",
+    "cnt_roll_3"
+  ],
+  "valid": {
+    "r2": 0.7483,
+    "mae": 681.5
+  },
+  "test": {
+    "r2": 0.6225,
+    "mae": 829.4
+  },
+  "test_prediction_range": {
+    "min": 1070.9201651986955,
+    "max": 9051.384852861802
+  },
+  "test_controls": {
+    "baseline_mean": {
+      "r2": -2.1441,
+      "mae": 2847.7
+    },
+    "baseline_persistence": {
+      "r2": 0.5099,
+      "mae": 840.1
+    },
+    "ridge": {
+      "r2": 0.58,
+      "mae": 946.2
+    },
+    "hgb": {
+      "r2": -0.5338,
+      "mae": 1998.7
+    }
+  },
+  "protocol": "Selected using H1 2012, committed before this H2 2012 evaluation; no transformed test-based tuning."
+}

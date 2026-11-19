@@ -1,0 +1,62 @@
+/Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/venv/lib/python3.13/site-packages/joblib/externals/loky/backend/context.py:134: UserWarning: Could not find the number of physical cores for the following reason:
+invalid literal for int() with base 10: ''
+Returning the number of logical cores instead. You can silence this warning by setting LOKY_MAX_CPU_COUNT to the number of cores you want to use.
+  warnings.warn(
+  File "/Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/venv/lib/python3.13/site-packages/joblib/externals/loky/backend/context.py", line 264, in _count_physical_cores
+    cpu_count_physical = _count_physical_cores_darwin()
+  File "/Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/venv/lib/python3.13/site-packages/joblib/externals/loky/backend/context.py", line 420, in _count_physical_cores_darwin
+    return int(cpu_info)
+{
+  "n_train": 348,
+  "n_valid": 182,
+  "features": [
+    "temp",
+    "atemp",
+    "hum",
+    "windspeed",
+    "dayofweek",
+    "is_weekend",
+    "is_holiday",
+    "is_workday",
+    "month_sin",
+    "month_cos",
+    "weather_severity",
+    "cnt_lag_1",
+    "cnt_lag_7",
+    "cnt_roll_7",
+    "cnt_roll_3"
+  ],
+  "selection_metric": "validation r2; validation mae breaks ties",
+  "controls": {
+    "baseline_mean": {
+      "r2": -0.9318,
+      "mae": 2002.2
+    },
+    "baseline_persistence": {
+      "r2": 0.4507,
+      "mae": 900.6
+    },
+    "ridge": {
+      "r2": 0.6439,
+      "mae": 836.5
+    },
+    "hgb": {
+      "r2": 0.1983,
+      "mae": 1311.6
+    }
+  },
+  "candidates": {
+    "delta_lag1": {
+      "r2": 0.6251,
+      "mae": 805.4
+    },
+    "delta_roll7": {
+      "r2": 0.7209,
+      "mae": 722.4
+    },
+    "ratio_roll7": {
+      "r2": 0.7483,
+      "mae": 681.5
+    }
+  }
+}

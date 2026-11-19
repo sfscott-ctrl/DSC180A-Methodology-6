@@ -107,10 +107,10 @@ def evaluate_selected(frame, selection, validation):
     }
 
 
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--evaluate-test", action="store_true")
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     frame = pd.read_parquet(PROCESSED)
     if args.evaluate_test:
         selection = json.loads(SELECTION.read_text())

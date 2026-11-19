@@ -91,7 +91,16 @@ def fit_and_score(*, validation_only=False, exclude=()) -> dict:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--validation-only", action="store_true")
+    parser.add_argument("--target-transform", action="store_true")
+    parser.add_argument("--evaluate-test", action="store_true")
     args = parser.parse_args()
+    if args.evaluate_test and not args.target_transform:
+        parser.error("--evaluate-test requires --target-transform")
+    if args.target_transform:
+        from src.target_transform import main as transformation_main
+
+        transformation_main(["--evaluate-test"] if args.evaluate_test else [])
+        raise SystemExit(0)
     res = fit_and_score(validation_only=args.validation_only)
     METRICS.parent.mkdir(parents=True, exist_ok=True)
     if args.validation_only:
@@ -100,5 +109,12 @@ if __name__ == "__main__":
         output = METRICS
         before = fit_and_score(exclude=("cnt_roll_3",))
         METRICS.with_name("metrics_before.json").write_text(json.dumps(before, indent=2) + "\n")
+        res["feature_comparison"] = {
+            "feature": "cnt_roll_3",
+            "kept_in_experimental_pipeline": True,
+            "recommended_for_deployment": False,
+            "before": {name: before[name] for name in MODELS},
+            "after": {name: res[name] for name in MODELS},
+        }
     output.write_text(json.dumps(res, indent=2) + "\n")
     print(json.dumps({k: v for k, v in res.items() if k != "features"}, indent=2))

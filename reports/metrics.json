@@ -59,5 +59,94 @@
       "r2": -0.5338,
       "mae": 1998.7
     }
+  },
+  "feature_comparison": {
+    "feature": "cnt_roll_3",
+    "kept_in_experimental_pipeline": true,
+    "recommended_for_deployment": false,
+    "before": {
+      "baseline_mean": {
+        "valid": {
+          "r2": -0.9318,
+          "mae": 2002.2
+        },
+        "test": {
+          "r2": -2.1441,
+          "mae": 2847.7
+        }
+      },
+      "baseline_persistence": {
+        "valid": {
+          "r2": 0.4507,
+          "mae": 900.6
+        },
+        "test": {
+          "r2": 0.5099,
+          "mae": 840.1
+        }
+      },
+      "ridge": {
+        "valid": {
+          "r2": 0.6475,
+          "mae": 832.9
+        },
+        "test": {
+          "r2": 0.5833,
+          "mae": 947.1
+        }
+      },
+      "hgb": {
+        "valid": {
+          "r2": 0.2185,
+          "mae": 1296.6
+        },
+        "test": {
+          "r2": -0.4975,
+          "mae": 1972.6
+        }
+      }
+    },
+    "after": {
+      "baseline_mean": {
+        "valid": {
+          "r2": -0.9318,
+          "mae": 2002.2
+        },
+        "test": {
+          "r2": -2.1441,
+          "mae": 2847.7
+        }
+      },
+      "baseline_persistence": {
+        "valid": {
+          "r2": 0.4507,
+          "mae": 900.6
+        },
+        "test": {
+          "r2": 0.5099,
+          "mae": 840.1
+        }
+      },
+      "ridge": {
+        "valid": {
+          "r2": 0.6439,
+          "mae": 836.5
+        },
+        "test": {
+          "r2": 0.58,
+          "mae": 946.2
+        }
+      },
+      "hgb": {
+        "valid": {
+          "r2": 0.1983,
+          "mae": 1311.6
+        },
+        "test": {
+          "r2": -0.5338,
+          "mae": 1998.7
+        }
+      }
+    }
   }
 }

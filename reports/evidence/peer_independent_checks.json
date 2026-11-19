@@ -1,0 +1,64 @@
+{
+  "repository": "https://github.com/Jtoast65/methodology-6",
+  "commit": "f7bf8c5ba7ee89fff9e0758335fda41f7968e4e6",
+  "raw_sha256": "a6bed1577f6e4de56dcfae6d8315985073cc0ad3446c8c99ed60c86a0b5ad9dc",
+  "selected_features": [
+    "temp",
+    "atemp",
+    "hum",
+    "windspeed",
+    "dayofweek",
+    "is_weekend",
+    "is_holiday",
+    "is_workday",
+    "month_sin",
+    "month_cos",
+    "weather_severity",
+    "cnt_lag_1",
+    "cnt_lag_7",
+    "cnt_roll_7"
+  ],
+  "calendar_checks": {
+    "cnt_lag_1": {
+      "rows": 714,
+      "mismatches": []
+    },
+    "cnt_lag_7": {
+      "rows": 714,
+      "mismatches": []
+    },
+    "cnt_roll_7": {
+      "rows": 714,
+      "mismatches": []
+    }
+  },
+  "regenerated_artifacts_equal_committed": {
+    "reports/metrics.json": true,
+    "reports/target-transformation.json": true
+  },
+  "boundary_gap_simulation": {
+    "raw_rows": 727,
+    "feature_rows": 706,
+    "train_rows": 347,
+    "loss": 21,
+    "permitted_loss": 21,
+    "actual_file_ingest_guard": "raw data hash mismatch: a993a397a281b93661989e7b053d512c97d2dbed8abc18ec46cb85e5d500622d; expected a6bed1577f6e4de56dcfae6d8315985073cc0ad3446c8c99ed60c86a0b5ad9dc"
+  },
+  "identity_with_one_missing_alias": {
+    "remaining_rows": 727,
+    "max_residual": 1.4210854715202004e-14,
+    "would_flag_at_1e_minus_6": true
+  },
+  "transformation_vs_persistence_test": {
+    "transformation": {
+      "r2": 0.5619,
+      "mae": 891.2
+    },
+    "persistence": {
+      "r2": 0.5099,
+      "mae": 840.1
+    },
+    "r2_delta": 0.052,
+    "mae_delta": 51.1
+  }
+}
