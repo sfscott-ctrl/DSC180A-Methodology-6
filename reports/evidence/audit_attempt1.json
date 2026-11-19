@@ -1,0 +1,7 @@
+{
+  "command": "python agent/audit.py . --out reports/audit.jsonl --concurrency 1",
+  "outcome": "driver_timeout",
+  "timeout_seconds": 600,
+  "final_result_captured": false,
+  "observed_checks": "feature identity checks, pytest, make all, exact before/after artifact comparison; no final verdict captured"
+}

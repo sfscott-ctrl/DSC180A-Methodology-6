@@ -106,6 +106,17 @@ Check exactly four things:
 Verify by reading files and running code. Do not accept a docstring or a
 README claim as evidence.
 
+Keep this a bounded screening run: finish within twelve tool rounds.
+Read the implementation and configuration in one grouped command; run
+make all and pytest once each. Export the actual selected model columns
+plus the target from the processed parquet to a temporary CSV, and call
+check_identity on those selected predictors. Inspect feature availability
+and split/preprocessing code independently of the identity result.
+Do not inspect git history or earlier fault transcripts, search for extra
+experiments, repeat model fits, or change source files. Those are outside
+these four checks. Record remaining uncertainty in the findings/confidence
+fields and return the schema once the four checks are complete.
+
 Your final answer is a single JSON object matching the schema you were
 given. No prose around it.
 """
@@ -157,7 +168,7 @@ async def audit_repo(repo: Path) -> dict[str, Any]:
         # automatically in a headless run, so the auditor can read and run
         # but has no Edit or Write to grant.
         permission_mode="default",
-        max_turns=40,
+        max_turns=20,
         model=os.environ.get("AUDIT_MODEL", "bikeshare-coder"),
         output_format={"type": "json_schema", "schema": REPORT_SCHEMA},
     )
