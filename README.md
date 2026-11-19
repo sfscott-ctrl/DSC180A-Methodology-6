@@ -74,3 +74,15 @@ the fourth fault demonstrates this distinction in a disposable repository.
 Standing constraints are in `CLAUDE.md`; methodological choices and agent
 attribution are in `docs/DECISIONS.md` and `REPORT.md`. Observed daily weather
 limits the interpretation to a retrospective forecast-proxy evaluation.
+
+## Reproduce validation artifacts without evaluating test
+
+After `make features`, run:
+
+```bash
+python -m scripts.reproduce_validation
+```
+
+This regenerates both `reports/validation_before.json` (original flat schema)
+and `reports/validation_after.json`, scoring only H1 2012. It does not call
+the test-scoring path or overwrite the final metrics files.

@@ -1,0 +1,18 @@
+{
+  "cnt_lag_1": {
+    "checked_rows": 714,
+    "mismatches": []
+  },
+  "cnt_lag_7": {
+    "checked_rows": 714,
+    "mismatches": []
+  },
+  "cnt_roll_7": {
+    "checked_rows": 714,
+    "mismatches": []
+  },
+  "cnt_roll_3": {
+    "checked_rows": 714,
+    "mismatches": []
+  }
+}

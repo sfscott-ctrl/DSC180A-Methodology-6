@@ -53,3 +53,15 @@ includes the actual recorded runs; they need not be rerun for reading.
 Sources: [assignment](https://dsc-capstone.org/2026-27/assignments/methodology/07-open/),
 [NRP API](https://nrp.ai/llmtoken/),
 [NRP Claude configuration](https://nrp.ai/documentation/userdocs/ai/llm-managed/client-configs/#claude-code).
+
+## Reproduce validation artifacts without evaluating test
+
+After `make features`, run:
+
+```bash
+python -m scripts.reproduce_validation
+```
+
+This regenerates both `reports/validation_before.json` (original flat schema)
+and `reports/validation_after.json`, scoring only H1 2012. It does not call
+the test-scoring path or overwrite the final metrics files.
