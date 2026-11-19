@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-18",
+  "scope": "Exercise 4; target transformation only, no feature or hyperparameter changes",
+  "training_period": "2011",
+  "selection_period": "H1 2012",
+  "held_out_period": "H2 2012",
+  "candidates": {
+    "delta_lag1": "z[d] = cnt[d] - cnt_lag_1[d]; prediction = predicted_z + cnt_lag_1[d]",
+    "delta_roll7": "z[d] = cnt[d] - cnt_roll_7[d]; prediction = predicted_z + cnt_roll_7[d]",
+    "ratio_roll7": "z[d] = cnt[d] / cnt_roll_7[d]; prediction = predicted_z * cnt_roll_7[d]"
+  },
+  "rationale": "Separate the known recent demand level from the innovation or relative multiplier learned by a tree. Every offset/scale is strictly historical and available before the prediction day.",
+  "estimator": "HistGradientBoostingRegressor(random_state=0, max_iter=300), identical to the untransformed control",
+  "feature_set": "Existing 15-feature experimental pipeline; unchanged across candidates",
+  "selection_rule": "Highest validation R2 among these three candidates; lower validation MAE breaks an exact tie. Report all candidate validation scores, including failures. No additional candidates or hyperparameter searches.",
+  "prediction_clipping": "None",
+  "test_protocol": "Commit the selected method before computing its test predictions, then evaluate that transformed model once. Earlier untransformed test scores have already been seen and are disclosed; they do not select the transformation.",
+  "canonical_metrics": "Keep reports/metrics.json as the untransformed pipeline. Save this experiment separately."
+}
