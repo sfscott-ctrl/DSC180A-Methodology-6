@@ -215,3 +215,71 @@ python -m pytest tests/ -q
 ```
 
 Machine-readable tool calls and hook events: `reports/evidence/04-fault-rolling.json`.
+
+## Fault 3: unknown-weather error removed
+
+Executed with Claude Code/NRP qwen3 via `/seed-fault` in one invocation
+(11 harness turns including setup). After the first failing
+automatic hook, repair took **2 assistant response(s)**, counting unique
+API message IDs through the restoring Edit. There was **one source repair
+attempt**, restoring the original expression; no tests were weakened.
+The count includes the requested red `make test` call, not just the repair.
+
+Exact injected diff (the repair reverses it):
+
+```diff
+--- src/features.py (healthy)
++++ src/features.py (seeded)
+@@ -1 +1 @@
+-        raise ValueError(f"unmapped weather labels: {sorted(unknown)}")
++        pass
+```
+
+Actual red `make test` output:
+
+```text
+python -m pytest tests/ -q
+...............F....                                                     [100%]
+=================================== FAILURES ===================================
+_________________ test_weather_encoder_rejects_unknown_labels __________________
+
+    def test_weather_encoder_rejects_unknown_labels():
+>       with pytest.raises(ValueError, match="unmapped weather labels.*UNKNOWN"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_leakage.py:91: Failed
+=========================== short test summary info ============================
+FAILED tests/test_leakage.py::test_weather_encoder_rejects_unknown_labels - F...
+1 failed, 19 passed in 1.51s
+make: *** [test] Error 1
+```
+
+Automatic `PostToolUse:Edit` hook: exit **2**, stderr verbatim:
+
+```text
+Leakage tests failed after editing /Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/outputs/bikeshare-open/src/features.py:
+........F.                                                               [100%]
+=================================== FAILURES ===================================
+_________________ test_weather_encoder_rejects_unknown_labels __________________
+
+    def test_weather_encoder_rejects_unknown_labels():
+>       with pytest.raises(ValueError, match="unmapped weather labels.*UNKNOWN"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_leakage.py:91: Failed
+=========================== short test summary info ============================
+FAILED tests/test_leakage.py::test_weather_encoder_rejects_unknown_labels - F...
+1 failed, 9 passed in 0.33s
+```
+
+Restoring Edit hook: exit **0**, stderr ``. Final test run:
+
+```text
+python -m pytest tests/ -q
+....................                                                     [100%]
+20 passed in 1.24s
+```
+
+Machine-readable tool calls and hook events: `reports/evidence/05-fault-weather.json`.

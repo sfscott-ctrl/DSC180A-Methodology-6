@@ -1,0 +1,15 @@
+python -m pytest tests/ -q
+...............F....                                                     [100%]
+=================================== FAILURES ===================================
+_________________ test_weather_encoder_rejects_unknown_labels __________________
+
+    def test_weather_encoder_rejects_unknown_labels():
+>       with pytest.raises(ValueError, match="unmapped weather labels.*UNKNOWN"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_leakage.py:91: Failed
+=========================== short test summary info ============================
+FAILED tests/test_leakage.py::test_weather_encoder_rejects_unknown_labels - F...
+1 failed, 19 passed in 1.51s
+make: *** [test] Error 1
