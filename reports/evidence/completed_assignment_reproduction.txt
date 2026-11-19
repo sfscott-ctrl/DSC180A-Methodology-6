@@ -1,0 +1,234 @@
+python -m src.ingest
+OK ingest: 728 rows, 2011-01-03 -> 2012-12-31
+python -m src.features
+OK features: 714 rows, 15 features -> features.parquet
+  temp, atemp, hum, windspeed, dayofweek, is_weekend, is_holiday, is_workday, month_sin, month_cos, weather_severity, cnt_lag_1, cnt_lag_7, cnt_roll_7, cnt_roll_3
+python -m src.train
+/Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/venv/lib/python3.13/site-packages/joblib/externals/loky/backend/context.py:134: UserWarning: Could not find the number of physical cores for the following reason:
+invalid literal for int() with base 10: ''
+Returning the number of logical cores instead. You can silence this warning by setting LOKY_MAX_CPU_COUNT to the number of cores you want to use.
+  warnings.warn(
+  File "/Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/venv/lib/python3.13/site-packages/joblib/externals/loky/backend/context.py", line 264, in _count_physical_cores
+    cpu_count_physical = _count_physical_cores_darwin()
+  File "/Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/venv/lib/python3.13/site-packages/joblib/externals/loky/backend/context.py", line 420, in _count_physical_cores_darwin
+    return int(cpu_info)
+{
+  "n_features": 15,
+  "n_train": 348,
+  "n_valid": 182,
+  "n_test": 184,
+  "baseline_mean": {
+    "valid": {
+      "r2": -0.9318,
+      "mae": 2002.2
+    },
+    "test": {
+      "r2": -2.1441,
+      "mae": 2847.7
+    }
+  },
+  "baseline_persistence": {
+    "valid": {
+      "r2": 0.4507,
+      "mae": 900.6
+    },
+    "test": {
+      "r2": 0.5099,
+      "mae": 840.1
+    }
+  },
+  "ridge": {
+    "valid": {
+      "r2": 0.6439,
+      "mae": 836.5
+    },
+    "test": {
+      "r2": 0.58,
+      "mae": 946.2
+    }
+  },
+  "hgb": {
+    "valid": {
+      "r2": 0.1983,
+      "mae": 1311.6
+    },
+    "test": {
+      "r2": -0.5338,
+      "mae": 1998.7
+    }
+  },
+  "feature_comparison": {
+    "feature": "cnt_roll_3",
+    "kept_in_experimental_pipeline": true,
+    "recommended_for_deployment": false,
+    "before": {
+      "baseline_mean": {
+        "valid": {
+          "r2": -0.9318,
+          "mae": 2002.2
+        },
+        "test": {
+          "r2": -2.1441,
+          "mae": 2847.7
+        }
+      },
+      "baseline_persistence": {
+        "valid": {
+          "r2": 0.4507,
+          "mae": 900.6
+        },
+        "test": {
+          "r2": 0.5099,
+          "mae": 840.1
+        }
+      },
+      "ridge": {
+        "valid": {
+          "r2": 0.6475,
+          "mae": 832.9
+        },
+        "test": {
+          "r2": 0.5833,
+          "mae": 947.1
+        }
+      },
+      "hgb": {
+        "valid": {
+          "r2": 0.2185,
+          "mae": 1296.6
+        },
+        "test": {
+          "r2": -0.4975,
+          "mae": 1972.6
+        }
+      }
+    },
+    "after": {
+      "baseline_mean": {
+        "valid": {
+          "r2": -0.9318,
+          "mae": 2002.2
+        },
+        "test": {
+          "r2": -2.1441,
+          "mae": 2847.7
+        }
+      },
+      "baseline_persistence": {
+        "valid": {
+          "r2": 0.4507,
+          "mae": 900.6
+        },
+        "test": {
+          "r2": 0.5099,
+          "mae": 840.1
+        }
+      },
+      "ridge": {
+        "valid": {
+          "r2": 0.6439,
+          "mae": 836.5
+        },
+        "test": {
+          "r2": 0.58,
+          "mae": 946.2
+        }
+      },
+      "hgb": {
+        "valid": {
+          "r2": 0.1983,
+          "mae": 1311.6
+        },
+        "test": {
+          "r2": -0.5338,
+          "mae": 1998.7
+        }
+      }
+    }
+  }
+}
+python -m pytest tests/ -q
+.........................                                                [100%]
+=============================== warnings summary ===============================
+tests/test_target_transform.py::test_validation_does_not_consult_test_targets
+  /Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/venv/lib/python3.13/site-packages/joblib/externals/loky/backend/context.py:134: UserWarning: Could not find the number of physical cores for the following reason:
+  invalid literal for int() with base 10: ''
+  Returning the number of logical cores instead. You can silence this warning by setting LOKY_MAX_CPU_COUNT to the number of cores you want to use.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+25 passed, 1 warning in 11.61s
+/Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/venv/lib/python3.13/site-packages/joblib/externals/loky/backend/context.py:134: UserWarning: Could not find the number of physical cores for the following reason:
+invalid literal for int() with base 10: ''
+Returning the number of logical cores instead. You can silence this warning by setting LOKY_MAX_CPU_COUNT to the number of cores you want to use.
+  warnings.warn(
+  File "/Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/venv/lib/python3.13/site-packages/joblib/externals/loky/backend/context.py", line 264, in _count_physical_cores
+    cpu_count_physical = _count_physical_cores_darwin()
+  File "/Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/venv/lib/python3.13/site-packages/joblib/externals/loky/backend/context.py", line 420, in _count_physical_cores_darwin
+    return int(cpu_info)
+{
+  "n_train": 348,
+  "n_valid": 182,
+  "features": [
+    "temp",
+    "atemp",
+    "hum",
+    "windspeed",
+    "dayofweek",
+    "is_weekend",
+    "is_holiday",
+    "is_workday",
+    "month_sin",
+    "month_cos",
+    "weather_severity",
+    "cnt_lag_1",
+    "cnt_lag_7",
+    "cnt_roll_7",
+    "cnt_roll_3"
+  ],
+  "selection_metric": "validation r2; validation mae breaks ties",
+  "controls": {
+    "baseline_mean": {
+      "r2": -0.9318,
+      "mae": 2002.2
+    },
+    "baseline_persistence": {
+      "r2": 0.4507,
+      "mae": 900.6
+    },
+    "ridge": {
+      "r2": 0.6439,
+      "mae": 836.5
+    },
+    "hgb": {
+      "r2": 0.1983,
+      "mae": 1311.6
+    }
+  },
+  "candidates": {
+    "delta_lag1": {
+      "r2": 0.6251,
+      "mae": 805.4
+    },
+    "delta_roll7": {
+      "r2": 0.7209,
+      "mae": 722.4
+    },
+    "ratio_roll7": {
+      "r2": 0.7483,
+      "mae": 681.5
+    }
+  }
+}
+/Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/venv/lib/python3.13/site-packages/joblib/externals/loky/backend/context.py:134: UserWarning: Could not find the number of physical cores for the following reason:
+invalid literal for int() with base 10: ''
+Returning the number of logical cores instead. You can silence this warning by setting LOKY_MAX_CPU_COUNT to the number of cores you want to use.
+  warnings.warn(
+  File "/Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/venv/lib/python3.13/site-packages/joblib/externals/loky/backend/context.py", line 264, in _count_physical_cores
+    cpu_count_physical = _count_physical_cores_darwin()
+  File "/Users/scarlettfeng/Documents/Codex/2026-11-18/if-your-laptop-is-not-powerful/work/venv/lib/python3.13/site-packages/joblib/externals/loky/backend/context.py", line 420, in _count_physical_cores_darwin
+    return int(cpu_info)
+baseline_mean: validation R2 -0.9318 -> -0.9318; delta +0.0000
+baseline_persistence: validation R2 0.4507 -> 0.4507; delta +0.0000
+ridge: validation R2 0.6475 -> 0.6439; delta -0.0036
+hgb: validation R2 0.2185 -> 0.1983; delta -0.0202

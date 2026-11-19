@@ -1,4 +1,4 @@
-# Reproduce this partial assignment
+# Reproduce this assignment
 
 Scope: tutorial, final Part 4 self-audit, and all required Part 5 Exercises 1–5.
 Optional Exercise 6 was not attempted. Repository: [https://github.com/sfscott-ctrl/DSC180A-Methodology-6](https://github.com/sfscott-ctrl/DSC180A-Methodology-6).

@@ -2,7 +2,7 @@
 
 Repository: [DSC180A-Methodology-6](https://github.com/sfscott-ctrl/DSC180A-Methodology-6)
 
-Completed **required Exercises 1–5** of the
+Implemented and checked **required Exercises 1–5** of the
 [DSC methodology assignment](https://dsc-capstone.org/2026-27/assignments/methodology/07-open/).
 The first Git commit is the unmodified starter. The remaining history records
 the failing feature test, implementation, three source faults and repairs,
@@ -10,7 +10,10 @@ the raw-data-copy experiment, self-audit, and report.
 
 Start with [REPORT.md](REPORT.md) and [the fault evidence](docs/SEEDED_FAULTS.md).
 The teammate audit is in [docs/AUDIT.md](docs/AUDIT.md). Optional Exercise 6
-was not attempted; nothing has been submitted to the course.
+was not attempted; nothing has been submitted to the course. A final SDK
+audit refresh remains pending: three NRP server errors prevented completion.
+The successful earlier self-audit is retained and clearly dated in
+[docs/SELF_AUDIT.md](docs/SELF_AUDIT.md).
 
 ## Reproduce the analysis
 
