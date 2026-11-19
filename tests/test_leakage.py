@@ -57,6 +57,27 @@ def test_rolling_mean_excludes_today(feats):
         assert feats.set_index("dteday").cnt_roll_7[date] == pytest.approx(expected)
 
 
+def test_roll_3_excludes_today(feats):
+    """cnt_roll_3 is the mean of cnt on d-1, d-2, d-3 -- hand-computed.
+
+    Dates and counts are literals read off data/raw/bike_daily.csv, not
+    derived from the frame under test, so this fails if the feature is
+    missing, misaligned, or built without shift(1):
+      2011-02-16 -> 2115, 2011-02-15 -> 1815, 2011-02-14 -> 1913
+      expected   -> (2115 + 1815 + 1913) / 3 = 1947.666...
+    A same-day window (02-17 = 2475 in place of 02-14) would give 2135.0,
+    and 2011-02-17 itself is 2475 -- both distinguishable from 1947.67.
+    2011-02-14 is 43 days into the series, well past LAG_WARMUP, and no
+    calendar day is missing in this window (the only gap is 2011-03-10).
+    """
+    by_date = feats.set_index("dteday")
+    date = pd.Timestamp("2011-02-17")
+    for day, cnt in [("2011-02-14", 1913), ("2011-02-15", 1815), ("2011-02-16", 2115)]:
+        assert by_date.loc[pd.Timestamp(day), TARGET] == cnt, f"raw data moved: {day}"
+    expected = (2115 + 1815 + 1913) / 3
+    assert by_date["cnt_roll_3"][date] == pytest.approx(expected)
+
+
 def test_no_missing_values(feats):
     assert feats[feature_columns(feats)].isna().sum().sum() == 0
 
