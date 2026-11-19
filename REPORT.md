@@ -139,5 +139,5 @@ The feature choice, negative-result retention, additional safeguards, and
 interpretation were agent recommendations, documented as such in
 `docs/DECISIONS.md`. This report does not invent student decisions or claim
 that a human independently reviewed these findings. The student should
-review and own the conclusions before submitting them. No teammate audit,
-remote publication, or course submission is claimed.
+review and own the conclusions before submitting them. No teammate audit or course submission was performed. The repository was
+published in a follow-up at [GitHub](https://github.com/sfscott-ctrl/DSC180A-Methodology-6).

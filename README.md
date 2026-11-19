@@ -1,5 +1,7 @@
 # Bikeshare demand capstone
 
+Repository: [DSC180A-Methodology-6](https://github.com/sfscott-ctrl/DSC180A-Methodology-6)
+
 Completed work through **Part 5, Exercise 2** of the
 [DSC methodology assignment](https://dsc-capstone.org/2026-27/assignments/methodology/07-open/).
 The first Git commit is the unmodified starter. The remaining history records

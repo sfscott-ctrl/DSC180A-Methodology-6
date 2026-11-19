@@ -1,8 +1,8 @@
 # Reproduce this partial assignment
 
 Scope: tutorial and Part 4 self-audit, then Part 5 Exercises 1 and 2.
-Exercises 3–5 are intentionally left for later. No repository was published
-or submitted to the course.
+Exercises 3–5 are intentionally left for later. Repository: [https://github.com/sfscott-ctrl/DSC180A-Methodology-6](https://github.com/sfscott-ctrl/DSC180A-Methodology-6).
+Nothing has been submitted to the course.
 
 ## Python pipeline
 
