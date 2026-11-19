@@ -1,0 +1,24 @@
+{
+  "command": "python agent/audit.py . --out reports/audit.jsonl --concurrency 1",
+  "revision": "4d76471",
+  "model": "qwen3",
+  "status": "failed: NRP server errors; no new ResultMessage or audit output",
+  "attempts": [
+    {
+      "job": "02-final-self-audit",
+      "returncode": 1,
+      "error": "claude_agent_sdk._errors.ResultError: Claude Code returned an error result: API Error: 503 Service Unavailable. This is a server-side issue, usually temporary \u2014 try again in a moment. If it persists, check your inference gateway (ellm.nrp-nautilus.io). (exit code: 1)"
+    },
+    {
+      "job": "03-final-self-audit",
+      "returncode": 1,
+      "error": "claude_agent_sdk._errors.ResultError: Claude Code returned an error result: API Error: 500 status code (no body). This is a server-side issue, usually temporary \u2014 try again in a moment. If it persists, check your inference gateway (ellm.nrp-nautilus.io). (exit code: 1)"
+    },
+    {
+      "job": "04-final-self-audit",
+      "returncode": 1,
+      "error": "claude_agent_sdk._errors.ResultError: Claude Code returned an error result: API Error: 503 Service Unavailable. This is a server-side issue, usually temporary \u2014 try again in a moment. If it persists, check your inference gateway (ellm.nrp-nautilus.io). (exit code: 1)"
+    }
+  ],
+  "retained_output": "reports/audit.jsonl remains the successful earlier audit at 9409382; not represented as a review of Exercise 4"
+}

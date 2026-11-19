@@ -9,6 +9,19 @@ The first attempt exceeded the driver's 600-second limit without a final
 ResultMessage; `reports/evidence/audit_attempt1.json` records that failure.
 The retry bounded the reviewer to the same four screening criteria.
 
+## Final refresh status
+
+After completing Exercises 3–5, the same SDK command was attempted three
+times against numerical code at `4d76471`. NRP returned HTTP 503, 500, and
+503 before a completed result. `reports/evidence/final_audit_attempts.json`
+records those failures. The JSON below and `reports/audit.jsonl` remain the
+genuine earlier audit at `9409382`; they do not certify the later target
+transformation. A fresh checkout independently passed all 25 tests and
+regenerated all five checked result files exactly (see
+`reports/evidence/completed_assignment_checks.json`). A successful final
+SDK refresh remains pending endpoint recovery; rerun the documented audit
+command and assess its findings before course submission.
+
 ## Codex assessment of the six findings
 
 1. **Observed daily weather: accepted limitation.** These are retrospective
@@ -51,7 +64,7 @@ not row shifts on the already filtered modeling table.
 
 The audit's structured verdict is leakage=none, temporal_ok=true,
 baseline_reported=true, reproducible=true. It is a screening result, not a
-student-authored verdict. No teammate repository was audited.
+student-authored verdict. This earlier run covered our own repository; the later teammate audit is recorded separately in `docs/AUDIT.md`.
 
 ## Auditor output, verbatim JSON line
 
